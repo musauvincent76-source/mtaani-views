@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mtaani Mashabiki Hub – Join Your Team's Fan Community</title>
-<meta name="description" content="Register, pick the team you support and see where your team ranks on the leaderboard.">
+<title>Mtaani Mashabiki Hub – Get Saved, Get More Status Views</title>
+<meta name="description" content="Join the hub, get saved by other members and grow your WhatsApp Status views.">
 <style>
 :root{--bg:#f3f6ef;--ink:#13261a;--green:#0f6b3a;--lime:#c8f169;--line:#d5dfcc;--card:#fff;--red:#c0392b}
 @media(prefers-color-scheme:dark){:root{--bg:#0e1a12;--ink:#eaf3e4;--green:#3fbf75;--line:#24382b;--card:#15251b}}
@@ -86,44 +86,44 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
 <nav><div class="wrap"><b>MTAANI MASHABIKI HUB</b><a href="#join">Join</a><a href="#board">Leaderboard</a><a href="#refer">Referrals</a><a href="#feed">Feed</a><a href="#how">How it works</a><a href="#faq">FAQ</a><a href="#websites">Websites</a></div></nav>
 
 <header><div class="wrap">
-  <h1>Support your team.<br>Join the hub.</h1>
-  <p>Mtaani Mashabiki Hub brings football fans from every neighbourhood into one community. Register your number, choose the team you support, and watch your team climb the leaderboard.</p>
+  <h1>Get saved.<br>Get more views.</h1>
+  <p>Mtaani Mashabiki Hub is a community where members save each other's numbers, so your WhatsApp Status reaches more people. Register, join the group, get saved and watch your views grow.</p>
   <a class="btn" href="#join">Register now</a>
 </div></header>
 
 <div class="wrap">
 <div class="stats" aria-live="polite">
-  <div class="stat"><b id="sTotal">0</b><span>Fans registered</span></div>
+  <div class="stat"><b id="sTotal">0</b><span>Members registered</span></div>
   <div class="stat"><b id="sVisits">0</b><span>Site visits</span></div>
-  <div class="stat"><b id="sTeams">0</b><span>Teams supported</span></div>
+  <div class="stat"><b id="sTeams">0</b><span>Teams represented</span></div>
 </div>
 
 <section id="join">
   <h2>Join the community</h2>
-  <p>It takes less than a minute. Fill in your details below and you are in.</p>
+  <p>It takes less than a minute. Once you are in, your number goes into the contact file we share with every member, and you save theirs too.</p>
   <form class="card" id="form" novalidate>
     <div class="warn" id="warn">Warning: register only once. A phone number that is already registered cannot be registered again.</div>
     <label for="name">Your name</label>
     <input id="name" placeholder="e.g. Brian Otieno" autocomplete="name">
     <label for="phone">Phone number</label>
     <input id="phone" type="tel" inputmode="tel" placeholder="07XX XXX XXX" autocomplete="tel">
-    <label for="team">Team you support</label>
+    <label for="team">Team you support (for the fun leaderboard)</label>
     <select id="team"></select>
     <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400"><input id="agree" type="checkbox" style="width:auto;margin-top:5px">
-      <span>I agree that my name and phone number may be saved as a contact by the hub admin and shared with other members.</span></label>
+      <span>I agree that my name and phone number may be saved as a contact by the hub admin and other members, so we can see each other's WhatsApp Status.</span></label>
     <button id="go" type="submit">Register me</button>
     <div id="msg" role="status"></div>
   </form>
   <div class="joinwa" id="joinWa" hidden>
     <b>You're in! Now join our WhatsApp group</b>
-    <div>Get matchday updates, fixtures and connect with fans of your team.</div>
+    <div>Download the contact file shared there, save everyone at once, and let them save you back.</div>
     <a id="joinLink" target="_blank" rel="noopener">Join the WhatsApp group</a>
   </div>
 </section>
 
 <section id="board">
   <h2>Team leaderboard</h2>
-  <p>Teams are ranked by the number of registered fans. Tell your friends to register and push your team to the top.</p>
+  <p>Just for fun: see which team has the most members in the hub. Tell your friends to register and push your team to the top.</p>
   <div class="card" id="lb">Loading…</div>
 </section>
 
@@ -144,7 +144,7 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
 
 <section id="feed">
   <h2>Community feed</h2>
-  <p>Post about your team, the matches or anything football. Like and comment on posts from other fans.</p>
+  <p>Share a shout-out, a promo, a thought or an update. Like and comment on posts from other members.</p>
   <form class="card" id="pf" novalidate>
     <textarea id="ptext" rows="3" maxlength="280" placeholder="What is on your mind?" aria-label="Write a post"></textarea>
     <button type="submit">Post</button>
@@ -157,19 +157,18 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
   <h2>How it works</h2>
   <div class="grid">
     <div class="card"><h3>1. Register</h3><p>Enter your name, phone number and the team you support. Each phone number can be registered only once.</p></div>
-    <div class="card"><h3>2. Get added</h3><p>The admin saves members as contacts and shares a contact file, so fans can find and connect with each other.</p></div>
-    <div class="card"><h3>3. Climb the board</h3><p>Every new fan adds a point to their team. Invite friends and watch your team move up the ranks.</p></div>
+    <div class="card"><h3>2. Get saved</h3><p>All member numbers are bundled into one contact file (.vcf) and shared in the WhatsApp group. Import it and save everyone in one tap.</p></div>
+    <div class="card"><h3>3. Watch views grow</h3><p>When more people save your number, more people see your WhatsApp Status. More saves means more views.</p></div>
   </div>
 </section>
 
 <section id="why">
   <h2>Why join Mtaani Mashabiki Hub?</h2>
   <div class="grid">
-    <div class="card"><h3>Meet fans near you</h3><p>Connect with people in your area who support the same team.</p></div>
-    <div class="card"><h3>Matchday updates</h3><p>Members get shared updates, watch-party plans and fixtures from the admin.</p></div>
-    <div class="card"><h3>Friendly rivalry</h3><p>See which team has the biggest army of fans and defend your club's pride.</p></div>
-    <div class="card"><h3>Free to join</h3><p>Registration costs nothing. All you need is a phone number and a favourite team.</p></div>
-  </div>
+    <div class="card"><h3>A bigger Status audience</h3><p>Hundreds of members saving your number means your Status gets seen by far more people.</p></div>
+    <div class="card"><h3>Save everyone in one tap</h3><p>No typing numbers one by one. Import the shared contact file and you are done.</p></div>
+    <div class="card"><h3>Win free data</h3><p>Invite friends with your personal link. The top referrer wins 2GB of free data, valid for 2 days.</p></div>
+    <div class="card"><h3>Free to join</h3><p>Registration costs nothing. All you need is a phone number and a WhatsApp Status worth watching.</p></div>
 </section>
 
 <section id="rules">
@@ -178,8 +177,8 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
     <li>Use your real name and your own phone number.</li>
     <li>Register only once. Duplicate numbers are blocked automatically.</li>
     <li>Do not post spam, hate speech or fake links in the feed. Posts that break the rules are deleted.</li>
-    <li>Respect fans of other teams. Banter is welcome, abuse is not.</li>
-    <li>No spam, scams or fake promotions inside the community.</li>
+    <li>Keep your WhatsApp Status real and active. Do not use it for scams or spam.</li>
+    <li>Respect other members. Banter is welcome, abuse is not.</li>
     <li>The admin may remove members who break these rules.</li>
   </ul></div>
 </section>
@@ -189,8 +188,10 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
   <details><summary>Is registration free?</summary><p>Yes. Joining Mtaani Mashabiki Hub is completely free.</p></details>
   <details><summary>Why can't I register again?</summary><p>Each phone number can be registered once, to keep the leaderboard fair. If you registered with the wrong team, contact the admin to have it fixed.</p></details>
   <details><summary>What happens to my number?</summary><p>The admin saves it as a contact so you can be added to the community. It is not shown publicly on this website.</p></details>
-  <details><summary>How do I get the contacts?</summary><p>The admin shares a contact file (.vcf). Open it on your phone and tap Import to save all members at once.</p></details>
-  <details><summary>My team is not on the list. What do I do?</summary><p>Choose "Other" for now and message the admin to request your team be added.</p></details>
+  <details><summary>How does this get me more views?</summary><p>WhatsApp shows your Status to people who have saved your number. The more members who save you, the bigger your audience.</p></details>
+  <details><summary>How do I get everyone's contacts?</summary><p>The admin shares a contact file (.vcf) in the WhatsApp group. Open it on your phone and tap Import to save all members at once.</p></details>
+  <details><summary>Will I see their Status too?</summary><p>Yes. When you save the members, you can see their Status updates as well, and they can see yours.</p></details>
+  <details><summary>Do I have to support a team?</summary><p>No. The team is only for the fun leaderboard. Choose "Other" if your team is not listed.</p></details>
   <details><summary>How can I leave the community?</summary><p>Send a message to the admin and your details will be removed.</p></details>
 </section>
 
@@ -208,7 +209,7 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
     <li>Database, user login and admin panel</li>
     <li>Hosting and support included</li>
   </ul>
-  <a class="btn" href="https://wa.me/254703182307?text=Hello%2C%20I%20want%20a%20website" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
+  <a class="btn" href="https://wa.me/254700000000?text=Hello%2C%20I%20want%20a%20website" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
 </section>
 </div>
 
@@ -322,11 +323,11 @@ $("copyBtn").onclick = async () => { try { await navigator.clipboard.writeText($
 
 /* ===== Referral leaderboard ===== */
 db.collection("refs").orderBy("count","desc").limit(100).onSnapshot(s => {
-  const rows = s.docs.map(d => ({id:d.id, ...d.data()})).filter(r => r.count > 0);
-  if (!rows.length) { $("rb").textContent = "No referrals yet. Share your link and take the lead!"; return; }
+  const rows = s.docs.map(d => ({id:d.id, ...d.data()}));
+  if (!rows.length) { $("rb").textContent = "No members yet. Register to get your share link!"; return; }
   const top = rows[0], me = ls("myref");
-  $("prize").innerHTML = "The fan who brings in the most new members wins <b>2GB of free data, valid for 2 days</b>.<br>Current leader: <b>" + esc(top.name) + " (" + esc(top.team) + ")</b> with " + top.count + " referral" + (top.count>1?"s":"") + ".";
-  const max = top.count;
+  $("prize").innerHTML = top.count < 1 ? "The member who brings in the most new people wins <b>2GB of free data, valid for 2 days</b>.<br>Nobody has a referral yet. Share your link and take the lead!" : "The member who brings in the most new people wins <b>2GB of free data, valid for 2 days</b>.<br>Current leader: <b>" + esc(top.name) + " (" + esc(top.team) + ")</b> with " + top.count + " referral" + (top.count>1?"s":"") + ".";
+  const max = Math.max(top.count,1);
   $("rb").innerHTML = rows.map((r,i) =>
     `<div class="row"><div class="rank">${i+1}</div><div class="name">${esc(r.name)}${i===0?'<span class="tag">LEADER</span>':''}${r.id===me?'<span class="tag">YOU</span>':''}<small style="display:block;font-weight:400;opacity:.7">${esc(r.team)}</small><div class="bar"><i style="width:${r.count/max*100}%"></i></div></div><b>${r.count}</b></div>`).join("");
 }, () => { $("rb").textContent = "Could not load the referral leaderboard."; });
@@ -379,4 +380,4 @@ $("posts").addEventListener("click", async e => {
 
 </script>
 </body>
-</html>
+                                                              </html>
