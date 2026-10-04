@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Mashabiki Hub – Admin</title>
+<style>
+:root{--bg:#f3f6ef;--ink:#13261a;--green:#0f6b3a;--lime:#c8f169;--line:#d5dfcc;--card:#fff;--red:#c0392b}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1a12;--ink:#eaf3e4;--green:#3fbf75;--line:#24382b;--card:#15251b}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Trebuchet MS",system-ui,sans-serif}
+.wrap{max-width:900px;margin:auto;padding:16px}
+header{background:#0b4a29;color:#fff;padding:14px 0}
+header .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:0;padding-bottom:0}
+header b{font:900 20px Impact,"Arial Black",sans-serif}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+h2{margin:0 0 12px;font:800 22px Impact,"Arial Black",sans-serif}
+label{display:block;font-weight:700;margin:10px 0 4px}
+input,select{width:100%;padding:11px;border:2px solid var(--line);border-radius:10px;font:inherit;background:var(--bg);color:var(--ink)}
+input:focus,select:focus,button:focus-visible{outline:3px solid var(--lime);outline-offset:1px}
+button{cursor:pointer;border:0;border-radius:10px;padding:12px 16px;font:800 15px inherit;background:var(--green);color:#fff}
+button.lime{background:var(--lime);color:#13261a}
+button.del{background:var(--red);padding:7px 11px;font-size:13px}
+button.ghost{background:transparent;color:#fff;border:2px solid #ffffff66}
+.full{width:100%;margin-top:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+.stat b{display:block;font:900 26px Impact,sans-serif;color:var(--green)}
+.stat span{font-size:13px;opacity:.75}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.tools input,.tools select{flex:1;min-width:150px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.msg{margin-top:10px;font-weight:700}.ok{color:var(--green)}.err{color:var(--red)}
+#panel{display:none}
+</style>
+</head>
+<body>
+<header><div class="wrap"><b>MASHABIKI HUB ADMIN</b><button class="ghost" id="out" style="display:none">Sign out</button></div></header>
+<div class="wrap">
 
+<div class="card" id="login" style="max-width:420px;margin:30px auto">
+  <h2>Admin sign in</h2>
+  <label for="em">Email</label><input id="em" type="email" autocomplete="username">
+  <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+  <button class="full" id="in">Sign in</button>
+  <div class="msg err" id="lerr"></div>
+</div>
+
+<div id="panel">
+  <div class="stats" id="stats"></div>
+
+  <div class="card">
+    <h2>Add a member</h2>
+    <div class="two">
+      <div><label for="an">Name</label><input id="an" placeholder="Full name"></div>
+      <div><label for="ap">Phone number</label><input id="ap" type="tel" placeholder="07XX XXX XXX"></div>
+    </div>
+    <label for="at">Team</label><select id="at"></select>
+    <button class="full" id="add">Add member</button>
+    <div class="msg" id="amsg" role="status"></div>
+  </div>
+
+  <div class="card">
+    <h2>Registered members</h2>
+    <div class="tools">
+      <input id="q" placeholder="Search name or number">
+      <select id="ft"></select>
+      <button class="lime" id="vcf">Download VCF</button>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Team</th><th></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+    <div class="msg" id="shown"></div>
+  </div>
+</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ===== SAME FIREBASE CONFIG AS THE WEBSITE ===== */
+const firebaseConfig = { apiKey:"YOUR_API_KEY", authDomain:"YOUR_PROJECT.firebaseapp.com", projectId:"YOUR_PROJECT_ID" };
+const TEAMS = ["Gor Mahia","AFC Leopards","Tusker FC","Kakamega Homeboyz","Arsenal","Man United","Liverpool","Chelsea","Man City","Real Madrid","Barcelona","Other"];
+const PREFIX = "Fan"; /* contact shows as: Fan Brian (Gor Mahia) */
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth(), db = firebase.firestore(), FV = firebase.firestore.FieldValue;
+const statsRef = db.collection("stats").doc("main");
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const topt = TEAMS.map(t => `<option>${t}</option>`).join("");
+$("at").innerHTML = '<option value="">Choose team…</option>' + topt;
+$("ft").innerHTML = '<option value="ALL">All teams</option>' + topt;
+let people = [], unsub = null;
+
+$("in").onclick = async () => {
+  $("lerr").textContent = "";
+  try { await auth.signInWithEmailAndPassword($("em").value.trim(), $("pw").value); }
+  catch(e){ $("lerr").textContent = "Sign in failed. Check your email and password."; }
+};
+$("out").onclick = () => auth.signOut();
+
+auth.onAuthStateChanged(u => {
+  $("login").style.display = u ? "none" : "block";
+  $("panel").style.display = u ? "block" : "none";
+  $("out").style.display = u ? "inline-block" : "none";
+  if (unsub) { unsub(); unsub = null; }
+  if (u) unsub = db.collection("fans").orderBy("at","desc").onSnapshot(s => {
+    people = s.docs.map(d => d.data()); render();
+  }, () => { $("shown").textContent = "Could not load members. Check your Firestore rules."; });
+});
+
+function normPhone(p){
+  let d = p.replace(/[^\d+]/g,""); if (d[0]==="+") d = d.slice(1);
+  if (d[0]==="0") d = "254"+d.slice(1);
+  if (/^[71]\d{8}$/.test(d)) d = "254"+d;
+  return /^254[71]\d{8}$/.test(d) ? d : null;
+}
+function filtered(){
+  const q = $("q").value.trim().toLowerCase(), f = $("ft").value;
+  return people.filter(p => (f==="ALL" || p.team===f) && (!q || p.name.toLowerCase().includes(q) || p.phone.includes(q.replace(/\D/g,"") || "~")));
+}
+function render(){
+  const by = {}; people.forEach(p => by[p.team] = (by[p.team]||0)+1);
+  const top = Object.entries(by).sort((a,b)=>b[1]-a[1])[0];
+  $("stats").innerHTML =
+    `<div class="stat"><b>${people.length}</b><span>Total registered</span></div>` +
+    `<div class="stat"><b>${Object.keys(by).length}</b><span>Teams</span></div>` +
+    `<div class="stat"><b>${top ? esc(top[1]) : 0}</b><span>${top ? esc(top[0]) + " (top team)" : "Top team"}</span></div>`;
+  const list = filtered();
+  $("rows").innerHTML = list.map((p,i) =>
+    `<tr><td>${i+1}</td><td>${esc(p.name)}</td><td>+${esc(p.phone)}</td><td>${esc(p.team)}</td><td><button class="del" data-id="${esc(p.phone)}">Remove</button></td></tr>`
+  ).join("") || '<tr><td colspan="5">No members found.</td></tr>';
+  $("shown").textContent = "Showing " + list.length + " of " + people.length;
+}
+$("q").oninput = render; $("ft").onchange = render;
+
+$("rows").onclick = async e => {
+  const id = e.target.dataset && e.target.dataset.id; if (!id) return;
+  const p = people.find(x => x.phone === id); if (!p) return;
+  if (!confirm("Remove " + p.name + " (+" + p.phone + ") from the hub?")) return;
+  try {
+    const b = db.batch();
+    b.delete(db.collection("fans").doc(id));
+    b.set(statsRef, {total: FV.increment(-1), counts: {[p.team]: FV.increment(-1)}}, {merge:true});
+    await b.commit();
+  } catch(err){ alert("Could not remove this member."); }
+};
+
+$("add").onclick = async () => {
+  const m = $("amsg"), name = $("an").value.trim(), team = $("at").value, phone = normPhone($("ap").value);
+  const say = (t,c) => { m.textContent = t; m.className = "msg " + c; };
+  if (name.length < 2) return say("Enter the name.","err");
+  if (!phone) return say("Invalid phone number.","err");
+  if (!team) return say("Choose a team.","err");
+  if (people.some(p => p.phone === phone)) return say("This number is already registered.","err");
+  try {
+    const b = db.batch();
+    b.set(db.collection("fans").doc(phone), {name, phone, team, at: FV.serverTimestamp()});
+    b.set(statsRef, {total: FV.increment(1), counts: {[team]: FV.increment(1)}}, {merge:true});
+    await b.commit();
+    say(name + " was added.","ok"); $("an").value = $("ap").value = ""; $("at").value = "";
+  } catch(e){ say("Could not add this member.","err"); }
+};
+
+$("vcf").onclick = () => {
+  const list = filtered();
+  if (!list.length) return alert("No contacts to export.");
+  const v = s => String(s).replace(/[\\;,]/g, m => "\\"+m);
+  const out = list.map(p =>
+    "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:" + v(PREFIX+" "+p.name+" ("+p.team+")") +
+    "\r\nN:" + v(p.name) + ";" + v(PREFIX) + ";;;\r\nTEL;TYPE=CELL:+" + p.phone + "\r\nEND:VCARD\r\n").join("");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([out], {type:"text/vcard"}));
+  const f = $("ft").value;
+  a.download = "mashabiki-" + (f==="ALL" ? "all" : f.toLowerCase().replace(/\s+/g,"-")) + ".vcf";
+  document.body.appendChild(a); a.click(); a.remove();
+};
+</script>
+</body>
+  </html>
