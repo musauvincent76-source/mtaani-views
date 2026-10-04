@@ -57,11 +57,29 @@ details p{margin:8px 0 0}
 .demo .items{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px}
 .demo .items span{background:#f1f5ee;border-radius:8px;padding:10px 6px;text-align:center;font-size:13px;font-weight:700}
 .promo ul{padding-left:18px}
+.msg{margin-top:12px;font-weight:700}
+.prize{background:linear-gradient(120deg,#0f6b3a,#1d8f52);color:#fff;border-radius:14px;padding:18px;margin-bottom:12px}
+.prize b{color:var(--lime)}
+.share{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.share[hidden]{display:none}
+.share input{flex:1;min-width:200px}
+.sm{background:var(--green);color:#fff;border:0;border-radius:10px;padding:11px 14px;font:800 14px inherit;cursor:pointer;text-decoration:none;display:inline-block}
+.tag{background:var(--lime);color:#13261a;border-radius:6px;padding:1px 7px;font-size:12px;font-weight:800;margin-left:6px}
+.post{border-bottom:1px solid var(--line);padding:14px 0}
+.post:last-child{border:0}
+.post .who{font-weight:800}.post small{font-weight:400;opacity:.7}
+.post p{margin:6px 0;white-space:pre-wrap;word-break:break-word}
+.acts{display:flex;gap:10px}
+.acts button{background:transparent;color:var(--ink);border:2px solid var(--line);border-radius:20px;padding:5px 14px;font:700 13px inherit;cursor:pointer;width:auto;margin:0}
+.acts button.on{background:var(--lime);color:#13261a;border-color:var(--lime)}
+.cm{margin:8px 0 0 10px;padding-left:10px;border-left:3px solid var(--line);font-size:14px}
+.cmf{display:flex;gap:6px;margin-top:8px}.cmf input{flex:1}
+textarea{width:100%;padding:12px;border:2px solid var(--line);border-radius:10px;font:inherit;background:var(--bg);color:var(--ink);resize:vertical}
 footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font-size:14px;margin-top:40px}
 </style>
 </head>
 <body>
-<nav><div class="wrap"><b>MTAANI MASHABIKI HUB</b><a href="#join">Join</a><a href="#board">Leaderboard</a><a href="#how">How it works</a><a href="#faq">FAQ</a><a href="#websites">Websites</a></div></nav>
+<nav><div class="wrap"><b>MTAANI MASHABIKI HUB</b><a href="#join">Join</a><a href="#board">Leaderboard</a><a href="#refer">Referrals</a><a href="#feed">Feed</a><a href="#how">How it works</a><a href="#faq">FAQ</a><a href="#websites">Websites</a></div></nav>
 
 <header><div class="wrap">
   <h1>Support your team.<br>Join the hub.</h1>
@@ -100,6 +118,32 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
   <div class="card" id="lb">Loading…</div>
 </section>
 
+<section id="refer">
+  <h2>Referral leaderboard</h2>
+  <div class="prize" id="prize">The fan who brings in the most new members wins <b>2GB of free data, valid for 2 days</b>. Share your link and start climbing.</div>
+  <div class="card" style="margin-bottom:12px">
+    <b>Your personal share link</b>
+    <p style="margin:4px 0 0;font-size:14px" id="linkNote">Register first to get your own link. Everyone who registers through it counts for you.</p>
+    <div class="share" id="shareBox" hidden>
+      <input id="linkInp" readonly aria-label="Your share link">
+      <button type="button" class="sm" id="copyBtn">Copy link</button>
+      <a class="sm" id="waShare" target="_blank" rel="noopener">Share on WhatsApp</a>
+    </div>
+  </div>
+  <div class="card" id="rb">Loading…</div>
+</section>
+
+<section id="feed">
+  <h2>Community feed</h2>
+  <p>Post about your team, the matches or anything football. Like and comment on posts from other fans.</p>
+  <form class="card" id="pf" novalidate>
+    <textarea id="ptext" rows="3" maxlength="280" placeholder="What is on your mind?" aria-label="Write a post"></textarea>
+    <button type="submit">Post</button>
+    <div id="pmsg" class="msg" role="status"></div>
+  </form>
+  <div class="card" id="posts" style="margin-top:12px">Loading…</div>
+</section>
+
 <section id="how">
   <h2>How it works</h2>
   <div class="grid">
@@ -124,6 +168,7 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
   <div class="card"><ul>
     <li>Use your real name and your own phone number.</li>
     <li>Register only once. Duplicate numbers are blocked automatically.</li>
+    <li>Do not post spam, hate speech or fake links in the feed. Posts that break the rules are deleted.</li>
     <li>Respect fans of other teams. Banter is welcome, abuse is not.</li>
     <li>No spam, scams or fake promotions inside the community.</li>
     <li>The admin may remove members who break these rules.</li>
@@ -154,7 +199,7 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
     <li>Database, user login and admin panel</li>
     <li>Hosting and support included</li>
   </ul>
-  <a class="btn" href="https://wa.me/254703182307?text=Hello%2C%20I%20want%20a%20website" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
+  <a class="btn" href="https://wa.me/254700000000?text=Hello%2C%20I%20want%20a%20website" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
 </section>
 </div>
 
@@ -164,7 +209,14 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 /* ===== PUT YOUR FIREBASE CONFIG HERE ===== */
-const firebaseConfig = { apiKey:"YOUR_API_KEY", authDomain:"YOUR_PROJECT.firebaseapp.com", projectId:"YOUR_PROJECT_ID" };
+const firebaseConfig = {
+  apiKey: "AIzaSyCpUQCu_Dvgv-vXfOKP0QtuvIDeXVVHdOY",
+  authDomain: "mtaani-vcf-hub.firebaseapp.com",
+  projectId: "mtaani-vcf-hub",
+  storageBucket: "mtaani-vcf-hub.firebasestorage.app",
+  messagingSenderId: "831707047225",
+  appId: "1:831707047225:web:616ed13b3f6b9931f034e8"
+};
 const TEAMS = ["Gor Mahia","AFC Leopards","Tusker FC","Kakamega Homeboyz","Arsenal","Man United","Liverpool","Chelsea","Man City","Real Madrid","Barcelona","Other"];
 
 firebase.initializeApp(firebaseConfig);
@@ -211,12 +263,18 @@ $("form").addEventListener("submit", async e => {
   if (!$("agree").checked) return say("Please tick the agreement box.","err");
   $("go").disabled = true;
   try {
+    let by = "";
+    if (REF) { try { const rs = await db.collection("refs").doc(REF).get(); if (rs.exists) by = REF; } catch(e){} }
+    const mine = newCode();
     const b = db.batch();
-    b.set(db.collection("fans").doc(phone), {name, phone, team, at: FV.serverTimestamp()});
+    b.set(db.collection("fans").doc(phone), {name, phone, team, ref: mine, refBy: by, at: FV.serverTimestamp()});
+    b.set(db.collection("refs").doc(mine), {name, team, count: 0});
+    if (by) b.update(db.collection("refs").doc(by), {count: FV.increment(1)});
     b.set(statsRef, {total: FV.increment(1), counts: {[team]: FV.increment(1)}}, {merge:true});
     await b.commit();
-    say("You are registered! Welcome, "+name+" ("+team+").","ok");
-    try { localStorage.setItem("registered", phone); } catch(e){}
+    say("You are registered! Welcome, "+name+" ("+team+"). Your share link is ready in the Referrals section.","ok");
+    try { localStorage.setItem("registered", phone); localStorage.setItem("myref", mine); localStorage.setItem("myname", name); localStorage.setItem("myteam", team); } catch(e){}
+    showShare(mine);
     setWarn("Warning: this phone already registered the number "+phone+". Do not register again.", true);
     $("form").reset();
   } catch (err) {
@@ -225,6 +283,83 @@ $("form").addEventListener("submit", async e => {
   }
   $("go").disabled = false;
 });
+
+/* ===== Helpers ===== */
+const REF = (new URLSearchParams(location.search).get("ref") || "").replace(/[^a-z0-9]/gi,"").slice(0,12);
+function newCode(){ const c="abcdefghjkmnpqrstuvwxyz23456789"; let s=""; for(let i=0;i<7;i++) s+=c[Math.floor(Math.random()*c.length)]; return s; }
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function ls(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function who(){ const n = ls("myname"); return n ? {name:n, team:ls("myteam")||""} : null; }
+function ago(ts){ if(!ts) return "just now"; const m=Math.floor((Date.now()-ts.toDate())/60000);
+  if(m<1) return "just now"; if(m<60) return m+" min ago"; const h=Math.floor(m/60); return h<24 ? h+" h ago" : Math.floor(h/24)+" d ago"; }
+
+/* ===== Share link ===== */
+function showShare(code){
+  const link = location.href.split("#")[0].split("?")[0] + "?ref=" + code;
+  $("linkInp").value = link; $("shareBox").hidden = false;
+  $("linkNote").textContent = "Everyone who registers through this link counts for you. Share it as much as you can.";
+  $("waShare").href = "https://wa.me/?text=" + encodeURIComponent("Join Mtaani Mashabiki Hub and support your team: " + link);
+}
+if (ls("myref")) showShare(ls("myref"));
+$("copyBtn").onclick = async () => { try { await navigator.clipboard.writeText($("linkInp").value); } catch(e){ $("linkInp").select(); document.execCommand("copy"); } $("copyBtn").textContent = "Copied!"; setTimeout(()=>$("copyBtn").textContent="Copy link",1500); };
+
+/* ===== Referral leaderboard ===== */
+db.collection("refs").orderBy("count","desc").limit(100).onSnapshot(s => {
+  const rows = s.docs.map(d => ({id:d.id, ...d.data()})).filter(r => r.count > 0);
+  if (!rows.length) { $("rb").textContent = "No referrals yet. Share your link and take the lead!"; return; }
+  const top = rows[0], me = ls("myref");
+  $("prize").innerHTML = "The fan who brings in the most new members wins <b>2GB of free data, valid for 2 days</b>.<br>Current leader: <b>" + esc(top.name) + " (" + esc(top.team) + ")</b> with " + top.count + " referral" + (top.count>1?"s":"") + ".";
+  const max = top.count;
+  $("rb").innerHTML = rows.map((r,i) =>
+    `<div class="row"><div class="rank">${i+1}</div><div class="name">${esc(r.name)}${i===0?'<span class="tag">LEADER</span>':''}${r.id===me?'<span class="tag">YOU</span>':''}<small style="display:block;font-weight:400;opacity:.7">${esc(r.team)}</small><div class="bar"><i style="width:${r.count/max*100}%"></i></div></div><b>${r.count}</b></div>`).join("");
+}, () => { $("rb").textContent = "Could not load the referral leaderboard."; });
+
+/* ===== Community feed ===== */
+let liked = {}; try { liked = JSON.parse(ls("liked") || "{}"); } catch(e){}
+const openSet = new Set();
+async function loadComments(id){
+  const box = $("cm-"+id); if (!box) return;
+  const s = await db.collection("posts").doc(id).collection("comments").orderBy("at","asc").limit(50).get();
+  box.innerHTML = s.docs.map(d => { const c=d.data(); return `<div class="cm"><b>${esc(c.name)}</b> ${esc(c.text)}</div>`; }).join("") +
+    `<div class="cmf"><input maxlength="200" placeholder="Write a comment" aria-label="Write a comment"><button type="button" class="sm" data-act="send">Send</button></div>`;
+}
+db.collection("posts").orderBy("at","desc").limit(30).onSnapshot(s => {
+  $("posts").innerHTML = s.docs.length ? s.docs.map(d => { const p=d.data(), id=d.id;
+    return `<div class="post" data-id="${id}"><div class="who">${esc(p.name)} <small>${esc(p.team)}, ${ago(p.at)}</small></div><p>${esc(p.text)}</p><div class="acts"><button type="button" data-act="like" class="${liked[id]?'on':''}">Like (${p.likes||0})</button><button type="button" data-act="cm">Comments (${p.comments||0})</button></div><div id="cm-${id}"></div></div>`; }).join("")
+    : "No posts yet. Write the first one!";
+  openSet.forEach(loadComments);
+}, () => { $("posts").textContent = "Could not load the feed."; });
+
+$("pf").addEventListener("submit", async e => {
+  e.preventDefault();
+  const t = $("ptext").value.trim(), me = who(), m = $("pmsg");
+  if (!me) { m.textContent = "Register first to post."; m.className = "msg err"; return; }
+  if (!t) return;
+  try { await db.collection("posts").add({name:me.name, team:me.team, text:t, likes:0, comments:0, at:FV.serverTimestamp()});
+    $("ptext").value = ""; m.textContent = "Posted!"; m.className = "msg ok"; }
+  catch(x){ m.textContent = "Could not post. Try again."; m.className = "msg err"; }
+});
+
+$("posts").addEventListener("click", async e => {
+  const act = e.target.dataset.act; if (!act) return;
+  const post = e.target.closest(".post"), id = post.dataset.id;
+  if (act === "like") {
+    if (liked[id]) return; liked[id] = 1;
+    try { localStorage.setItem("liked", JSON.stringify(liked)); } catch(x){}
+    db.collection("posts").doc(id).update({likes: FV.increment(1)}).catch(()=>{});
+  } else if (act === "cm") {
+    if (openSet.has(id)) { openSet.delete(id); $("cm-"+id).innerHTML = ""; } else { openSet.add(id); loadComments(id); }
+  } else if (act === "send") {
+    const inp = post.querySelector(".cmf input"), text = inp.value.trim(), me = who();
+    if (!text) return;
+    if (!me) return alert("Register first to comment.");
+    const ref = db.collection("posts").doc(id), b = db.batch();
+    b.set(ref.collection("comments").doc(), {name:me.name, team:me.team, text, at:FV.serverTimestamp()});
+    b.update(ref, {comments: FV.increment(1)});
+    try { await b.commit(); loadComments(id); } catch(x){ alert("Could not send the comment."); }
+  }
+});
+
 </script>
 </body>
-  </html>
+</html>
