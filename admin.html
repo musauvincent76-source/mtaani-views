@@ -6,49 +6,80 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Mashabiki Hub – Admin</title>
 <style>
-:root{--bg:#f3f6ef;--ink:#13261a;--green:#0f6b3a;--lime:#c8f169;--line:#d5dfcc;--card:#fff;--red:#c0392b}
-@media(prefers-color-scheme:dark){:root{--bg:#0e1a12;--ink:#eaf3e4;--green:#3fbf75;--line:#24382b;--card:#15251b}}
+:root{color-scheme:dark;--bg:#080c0a;--panel:#111713;--panel2:#161e19;--line:#212c25;--ink:#e8f1ea;--mute:#8da095;--acc:#4ff0a0;--acc2:#1fb872;--red:#ff6b5e;--amber:#ffc857}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Trebuchet MS",system-ui,sans-serif}
-.wrap{max-width:900px;margin:auto;padding:16px}
-header{background:#0b4a29;color:#fff;padding:14px 0}
-header .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:0;padding-bottom:0}
-header b{font:900 20px Impact,"Arial Black",sans-serif}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
-h2{margin:0 0 12px;font:800 22px Impact,"Arial Black",sans-serif}
-label{display:block;font-weight:700;margin:10px 0 4px}
-input,select{width:100%;padding:11px;border:2px solid var(--line);border-radius:10px;font:inherit;background:var(--bg);color:var(--ink)}
-input:focus,select:focus,button:focus-visible{outline:3px solid var(--lime);outline-offset:1px}
-button{cursor:pointer;border:0;border-radius:10px;padding:12px 16px;font:800 15px inherit;background:var(--green);color:#fff}
-button.lime{background:var(--lime);color:#13261a}
-button.del{background:var(--red);padding:7px 11px;font-size:13px}
-button.ghost{background:transparent;color:#fff;border:2px solid #ffffff66}
-.full{width:100%;margin-top:14px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
-.stat b{display:block;font:900 26px Impact,sans-serif;color:var(--green)}
-.stat span{font-size:13px;opacity:.75}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  background:radial-gradient(900px 420px at 8% -8%,#12382699,transparent 70%),radial-gradient(700px 360px at 100% 0,#0e2b4a55,transparent 70%),var(--bg);background-attachment:fixed}
+.wrap{max-width:960px;margin:auto;padding:18px 16px 60px}
+header{position:sticky;top:0;z-index:10;background:#080c0acc;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.3px}
+.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--acc),#12a8ff);display:grid;place-items:center;color:#04140c;font-weight:900;font-size:16px}
+.brand small{display:block;font-weight:500;color:var(--mute);font-size:12px;letter-spacing:.4px;margin-top:-2px}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:0 10px 30px #00000055}
+h2{margin:0 0 4px;font-size:18px;font-weight:800;letter-spacing:.2px;display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:5px;height:18px;border-radius:3px;background:linear-gradient(var(--acc),var(--acc2))}
+.sub{margin:0 0 14px;color:var(--mute);font-size:13.5px}
+label{display:block;font-weight:600;font-size:12.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.7px;margin:12px 0 6px}
+input,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit;background:#0b110d;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+input::placeholder{color:#58695e}
+input:focus,select:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px #4ff0a02e}
+button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+button{cursor:pointer;border:0;border-radius:12px;padding:12px 18px;font:700 14px inherit;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04140c;transition:transform .12s,filter .12s}
+button:hover{filter:brightness(1.08)}button:active{transform:scale(.97)}
+button.lime{background:linear-gradient(135deg,#d6ff6a,#9be34a);color:#13200a}
+button.del{background:#ff6b5e1f;color:var(--red);border:1px solid #ff6b5e55;padding:7px 12px;font-size:12.5px}
+button.del:hover{background:var(--red);color:#2a0b08}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button.ghost2{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.full{width:100%;margin-top:16px;padding:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:16px 16px 14px;text-align:left}
+.stat::before{content:"";position:absolute;left:0;top:0;right:0;height:3px;background:linear-gradient(90deg,var(--acc),#12a8ff)}
+.stat:nth-child(2)::before{background:linear-gradient(90deg,#d6ff6a,var(--acc))}
+.stat:nth-child(3)::before{background:linear-gradient(90deg,var(--amber),#ff8a4c)}
+.stat b{display:block;font-size:34px;line-height:1.1;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.stat span{display:block;margin-top:4px;font-size:12.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:560px){.two{grid-template-columns:1fr}}
-.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.tools input,.tools select{flex:1;min-width:150px}
-.tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:15px}
-th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
-.msg{margin-top:10px;font-weight:700}.ok{color:var(--green)}.err{color:var(--red)}
-.row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);word-break:break-word}
-#panel{display:none}
-@media(max-width:560px){th:first-child,td:first-child{display:none}table{font-size:14px}}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.tools input,.tools select{flex:1;min-width:150px;width:auto}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:#0b110d}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th{position:sticky;top:0;background:#111a14;color:var(--mute);font-size:11.5px;text-transform:uppercase;letter-spacing:.8px;font-weight:700}
+th,td{text-align:left;padding:12px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+tbody tr{transition:background .12s}tbody tr:hover{background:#4ff0a010}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{color:var(--mute);font-variant-numeric:tabular-nums;width:44px}
+td:nth-child(2){font-weight:600}
+td:nth-child(3){font-variant-numeric:tabular-nums;color:#bcd0c3}
+td:nth-child(4){color:var(--acc)}
+td:last-child{text-align:right}
+@media(max-width:560px){th:first-child,td:first-child{display:none}table{font-size:14px}th,td{padding:11px 9px}}
+.msg{margin-top:12px;font-weight:600;font-size:14px}.ok{color:var(--acc)}.err{color:var(--red)}
+#shown{color:var(--mute);font-weight:500;font-size:13px}
+.row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);word-break:break-word}
+.row:last-child{border-bottom:0}
+.row small{color:var(--mute)}
 .pr{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}
 .pr p{margin:2px 0 0;word-break:break-word}
+#panel{display:none}
+#login{max-width:430px;margin:9vh auto 0;padding:28px 24px;text-align:center}
+#login h2{justify-content:center}#login h2::before{display:none}
+#login .logo{margin:0 auto 14px;width:52px;height:52px;border-radius:15px;font-size:24px}
+#login label{text-align:left}
+#login .msg{text-align:center}
 </style>
 </head>
 <body>
-<header><div class="wrap"><b>MASHABIKI HUB ADMIN</b><button class="ghost" id="out" style="display:none">Sign out</button></div></header>
+<header><div class="wrap"><div class="brand"><div class="logo">M</div><div>Mashabiki Hub<small>ADMIN CONSOLE</small></div></div><button class="ghost" id="out" style="display:none">Sign out</button></div></header>
 <div class="wrap">
 
-<div class="card" id="login" style="max-width:420px;margin:30px auto">
+<div class="card" id="login">
+  <div class="logo">M</div>
   <h2>Admin sign in</h2>
+  <p class="sub">Sign in to manage members, contacts and the feed.</p>
   <label for="em">Email</label><input id="em" type="email" autocomplete="username">
   <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
   <button class="full" id="in">Sign in</button>
@@ -60,6 +91,7 @@ th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);white-
 
   <div class="card">
     <h2>Add a member</h2>
+    <p class="sub">Register someone yourself. Duplicate numbers are blocked.</p>
     <div class="two">
       <div><label for="an">Name</label><input id="an" placeholder="Full name"></div>
       <div><label for="ap">Phone number</label><input id="ap" type="tel" placeholder="07XX XXX XXX"></div>
@@ -71,10 +103,12 @@ th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);white-
 
   <div class="card">
     <h2>Registered members</h2>
+    <p class="sub">Search, filter by team, remove members or export their contacts as a VCF file.</p>
     <div class="tools">
       <input id="q" placeholder="Search name or number">
       <select id="ft"></select>
       <button class="lime" id="vcf">Download VCF</button>
+      <button class="ghost2" id="bf">Create missing referral links</button>
     </div>
     <div class="tw"><table>
       <thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Team</th><th></th></tr></thead>
@@ -85,6 +119,7 @@ th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);white-
 
   <div class="card">
     <h2>Moderate feed</h2>
+    <p class="sub">Delete posts that break the rules.</p>
     <div id="mod">Loading…</div>
   </div>
 </div>
@@ -205,6 +240,23 @@ $("add").onclick = async () => {
     await b.commit();
     say(name + " was added.","ok"); $("an").value = $("ap").value = ""; $("at").value = "";
   } catch(e){ say("Could not add this member.","err"); }
+};
+
+$("bf").onclick = async () => {
+  const miss = people.filter(p => !p.ref);
+  if (!miss.length) return alert("Everyone already has a referral link.");
+  if (!confirm("Create referral links for " + miss.length + " members who joined before referrals?")) return;
+  const gen = () => Array.from({length:6}, () => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random()*32)]).join("");
+  try {
+    for (let i = 0; i < miss.length; i += 200) {
+      const b = db.batch();
+      miss.slice(i, i+200).forEach(p => { const c = gen();
+        b.set(db.collection("refs").doc(c), {name: p.name, team: p.team, count: 0});
+        b.update(db.collection("fans").doc(p.phone), {ref: c, refBy: p.refBy || ""}); });
+      await b.commit();
+    }
+    alert("Done. " + miss.length + " members now appear on the referral leaderboard.");
+  } catch(e){ alert("Could not finish. Check your Firestore rules."); }
 };
 
 $("vcf").onclick = () => {
