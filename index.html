@@ -75,6 +75,10 @@ details p{margin:8px 0 0}
 .cm{margin:8px 0 0 10px;padding-left:10px;border-left:3px solid var(--line);font-size:14px}
 .cmf{display:flex;gap:6px;margin-top:8px}.cmf input{flex:1}
 textarea{width:100%;padding:12px;border:2px solid var(--line);border-radius:10px;font:inherit;background:var(--bg);color:var(--ink);resize:vertical}
+.joinwa{margin-top:12px;background:#25d366;color:#06330f;border-radius:14px;padding:16px;text-align:center}
+.joinwa[hidden]{display:none}
+.joinwa b{display:block;font:800 20px Impact,"Arial Black",sans-serif;margin-bottom:4px}
+.joinwa a{display:inline-block;margin-top:10px;background:#06330f;color:#fff;font-weight:800;padding:13px 22px;border-radius:10px;text-decoration:none}
 footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font-size:14px;margin-top:40px}
 </style>
 </head>
@@ -110,6 +114,11 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
     <button id="go" type="submit">Register me</button>
     <div id="msg" role="status"></div>
   </form>
+  <div class="joinwa" id="joinWa" hidden>
+    <b>You're in! Now join our WhatsApp group</b>
+    <div>Get matchday updates, fixtures and connect with fans of your team.</div>
+    <a id="joinLink" target="_blank" rel="noopener">Join the WhatsApp group</a>
+  </div>
 </section>
 
 <section id="board">
@@ -199,7 +208,7 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
     <li>Database, user login and admin panel</li>
     <li>Hosting and support included</li>
   </ul>
-  <a class="btn" href="https://wa.me/254700000000?text=Hello%2C%20I%20want%20a%20website" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
+  <a class="btn" href="https://wa.me/254703182307?text=Hello%2C%20I%20want%20a%20website" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
 </section>
 </div>
 
@@ -274,7 +283,7 @@ $("form").addEventListener("submit", async e => {
     await b.commit();
     say("You are registered! Welcome, "+name+" ("+team+"). Your share link is ready in the Referrals section.","ok");
     try { localStorage.setItem("registered", phone); localStorage.setItem("myref", mine); localStorage.setItem("myname", name); localStorage.setItem("myteam", team); } catch(e){}
-    showShare(mine);
+    showShare(mine); showJoin();
     setWarn("Warning: this phone already registered the number "+phone+". Do not register again.", true);
     $("form").reset();
   } catch (err) {
@@ -292,6 +301,11 @@ function ls(k){ try { return localStorage.getItem(k); } catch(e){ return null; }
 function who(){ const n = ls("myname"); return n ? {name:n, team:ls("myteam")||""} : null; }
 function ago(ts){ if(!ts) return "just now"; const m=Math.floor((Date.now()-ts.toDate())/60000);
   if(m<1) return "just now"; if(m<60) return m+" min ago"; const h=Math.floor(m/60); return h<24 ? h+" h ago" : Math.floor(h/24)+" d ago"; }
+
+/* ===== WhatsApp group ===== */
+const WA_GROUP = "https://chat.whatsapp.com/J5hslkAYyuQ8oaUpj0xcZQ"; /* e.g. https://chat.whatsapp.com/XXXXXXXX */
+function showJoin(){ if (!/^https?:\/\//.test(WA_GROUP)) return; $("joinLink").href = WA_GROUP; $("joinWa").hidden = false; }
+if (ls("registered")) showJoin();
 
 /* ===== Share link ===== */
 function showShare(code){
