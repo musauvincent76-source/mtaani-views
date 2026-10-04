@@ -208,7 +208,7 @@ footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font
     <li>Database, user login and admin panel</li>
     <li>Hosting and support included</li>
   </ul>
-  <a class="btn" href="https://wa.me/254703182307?text=Hello%2C%20I%20want%20a%20website" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
+  <a class="btn" href="https://wa.me/254700000000?text=Hello%2C%20I%20want%20a%20website" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
 </section>
 </div>
 
@@ -252,10 +252,13 @@ statsRef.onSnapshot(s => {
 }, () => { $("lb").textContent = "Could not load the leaderboard."; });
 
 function normPhone(p){
-  let d = p.replace(/[^\d+]/g,""); if (d[0]==="+") d = d.slice(1);
-  if (d[0]==="0") d = "254"+d.slice(1);
-  if (/^[71]\d{8}$/.test(d)) d = "254"+d;
-  return /^254[71]\d{8}$/.test(d) ? d : null;
+  const intl = /^\s*(\+|00)/.test(p);
+  let d = p.replace(/\D/g,"");
+  if (intl) { if (d.startsWith("00")) d = d.slice(2); return /^\d{9,15}$/.test(d) ? d : null; }
+  if (/^06\d{8}$/.test(d)) d = "255" + d.slice(1);       /* Tanzania 06XX */
+  else if (d[0]==="0") d = "254" + d.slice(1);             /* Kenya 07XX / 01XX */
+  else if (/^[71]\d{8}$/.test(d)) d = "254" + d;
+  return /^(254[71]|255[67])\d{8}$/.test(d) ? d : null;
 }
 const WARN0 = $("warn").textContent;
 const setWarn = (t,hit) => { $("warn").textContent = t; $("warn").className = "warn"+(hit?" hit":""); };
