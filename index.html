@@ -1,1 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mtaani Mashabiki Hub – Join Your Team's Fan Community</title>
+<meta name="description" content="Register, pick the team you support and see where your team ranks on the leaderboard.">
+<style>
+:root{--bg:#f3f6ef;--ink:#13261a;--green:#0f6b3a;--lime:#c8f169;--line:#d5dfcc;--card:#fff;--red:#c0392b}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1a12;--ink:#eaf3e4;--green:#3fbf75;--line:#24382b;--card:#15251b}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Trebuchet MS",system-ui,sans-serif}
+.wrap{max-width:760px;margin:auto;padding:0 16px}
+nav{background:#0b4a29;color:#fff;position:sticky;top:0;z-index:5}
+nav .wrap{display:flex;gap:16px;align-items:center;overflow-x:auto;padding-top:10px;padding-bottom:10px;white-space:nowrap}
+nav b{font:900 18px Impact,"Arial Black",sans-serif;margin-right:auto}
+nav a{color:#fff;text-decoration:none;font-size:14px}
+header{background:var(--green);color:#fff;padding:44px 0 52px}
+header h1{font:900 clamp(32px,9vw,58px)/1 Impact,"Arial Black",sans-serif;margin:0 0 12px}
+header p{margin:0 0 18px;max-width:520px;font-size:18px}
+.btn{display:inline-block;background:var(--lime);color:#13261a;font-weight:800;padding:13px 20px;border-radius:10px;text-decoration:none;border:0;font:800 16px inherit;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:-28px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 8px;text-align:center}
+.stat b{display:block;font:900 28px Impact,sans-serif;color:var(--green)}
+.stat span{font-size:13px;opacity:.75}
+section{margin:36px 0}
+h2{font:800 26px Impact,"Arial Black",sans-serif;margin:0 0 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+label{display:block;font-weight:700;margin:12px 0 4px}
+input,select{width:100%;padding:12px;border:2px solid var(--line);border-radius:10px;font:inherit;background:var(--bg);color:var(--ink)}
+input:focus,select:focus,button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+form button{width:100%;margin-top:16px;background:var(--green);color:#fff;border:0;border-radius:10px;padding:14px;font:800 16px inherit;cursor:pointer}
+form button:disabled{opacity:.5}
+.warn{background:#fff3cd;color:#5c4400;border:2px solid #f0c040;border-radius:10px;padding:10px 12px;font-weight:700;margin-bottom:6px}
+.warn.hit{background:#fde2de;color:#7a1a10;border-color:var(--red)}
+@media(prefers-color-scheme:dark){.warn{background:#3a3010;color:#ffe9a0}.warn.hit{background:#40191a;color:#ffd0ca}}
+#msg{margin-top:12px;font-weight:700}.ok{color:var(--green)}.err{color:var(--red)}
+.row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}
+.rank{width:34px;height:34px;border-radius:50%;background:var(--lime);color:#13261a;display:grid;place-items:center;font-weight:900;flex:none}
+.name{flex:1;font-weight:700}
+.bar{height:8px;background:var(--line);border-radius:6px;margin-top:5px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.grid .card h3{margin:0 0 6px;font-size:17px}
+.grid .card p{margin:0;font-size:15px}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:8px}
+summary{font-weight:700;cursor:pointer}
+details p{margin:8px 0 0}
+.promo{background:#13261a;color:#eaf3e4;border-radius:14px;padding:22px}
+.promo h2{color:var(--lime)}
+.demo{margin:16px 0;border:1px solid #2c4635;border-radius:12px;overflow:hidden;background:#fff;color:#222}
+.demo .bar2{background:#eee;padding:6px 10px;font-size:12px}
+.demo .hero{padding:18px;background:linear-gradient(120deg,#0f6b3a,#1d8f52);color:#fff}
+.demo .hero h3{margin:0 0 4px;font:800 20px Impact,sans-serif}
+.demo .items{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px}
+.demo .items span{background:#f1f5ee;border-radius:8px;padding:10px 6px;text-align:center;font-size:13px;font-weight:700}
+.promo ul{padding-left:18px}
+footer{background:#0b4a29;color:#d9ead3;text-align:center;padding:26px 16px;font-size:14px;margin-top:40px}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><b>MTAANI MASHABIKI HUB</b><a href="#join">Join</a><a href="#board">Leaderboard</a><a href="#how">How it works</a><a href="#faq">FAQ</a><a href="#websites">Websites</a></div></nav>
 
+<header><div class="wrap">
+  <h1>Support your team.<br>Join the hub.</h1>
+  <p>Mtaani Mashabiki Hub brings football fans from every neighbourhood into one community. Register your number, choose the team you support, and watch your team climb the leaderboard.</p>
+  <a class="btn" href="#join">Register now</a>
+</div></header>
+
+<div class="wrap">
+<div class="stats" aria-live="polite">
+  <div class="stat"><b id="sTotal">0</b><span>Fans registered</span></div>
+  <div class="stat"><b id="sVisits">0</b><span>Site visits</span></div>
+  <div class="stat"><b id="sTeams">0</b><span>Teams supported</span></div>
+</div>
+
+<section id="join">
+  <h2>Join the community</h2>
+  <p>It takes less than a minute. Fill in your details below and you are in.</p>
+  <form class="card" id="form" novalidate>
+    <div class="warn" id="warn">Warning: register only once. A phone number that is already registered cannot be registered again.</div>
+    <label for="name">Your name</label>
+    <input id="name" placeholder="e.g. Brian Otieno" autocomplete="name">
+    <label for="phone">Phone number</label>
+    <input id="phone" type="tel" inputmode="tel" placeholder="07XX XXX XXX" autocomplete="tel">
+    <label for="team">Team you support</label>
+    <select id="team"></select>
+    <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400"><input id="agree" type="checkbox" style="width:auto;margin-top:5px">
+      <span>I agree that my name and phone number may be saved as a contact by the hub admin and shared with other members.</span></label>
+    <button id="go" type="submit">Register me</button>
+    <div id="msg" role="status"></div>
+  </form>
+</section>
+
+<section id="board">
+  <h2>Team leaderboard</h2>
+  <p>Teams are ranked by the number of registered fans. Tell your friends to register and push your team to the top.</p>
+  <div class="card" id="lb">Loading…</div>
+</section>
+
+<section id="how">
+  <h2>How it works</h2>
+  <div class="grid">
+    <div class="card"><h3>1. Register</h3><p>Enter your name, phone number and the team you support. Each phone number can be registered only once.</p></div>
+    <div class="card"><h3>2. Get added</h3><p>The admin saves members as contacts and shares a contact file, so fans can find and connect with each other.</p></div>
+    <div class="card"><h3>3. Climb the board</h3><p>Every new fan adds a point to their team. Invite friends and watch your team move up the ranks.</p></div>
+  </div>
+</section>
+
+<section id="why">
+  <h2>Why join Mtaani Mashabiki Hub?</h2>
+  <div class="grid">
+    <div class="card"><h3>Meet fans near you</h3><p>Connect with people in your area who support the same team.</p></div>
+    <div class="card"><h3>Matchday updates</h3><p>Members get shared updates, watch-party plans and fixtures from the admin.</p></div>
+    <div class="card"><h3>Friendly rivalry</h3><p>See which team has the biggest army of fans and defend your club's pride.</p></div>
+    <div class="card"><h3>Free to join</h3><p>Registration costs nothing. All you need is a phone number and a favourite team.</p></div>
+  </div>
+</section>
+
+<section id="rules">
+  <h2>Community rules</h2>
+  <div class="card"><ul>
+    <li>Use your real name and your own phone number.</li>
+    <li>Register only once. Duplicate numbers are blocked automatically.</li>
+    <li>Respect fans of other teams. Banter is welcome, abuse is not.</li>
+    <li>No spam, scams or fake promotions inside the community.</li>
+    <li>The admin may remove members who break these rules.</li>
+  </ul></div>
+</section>
+
+<section id="faq">
+  <h2>Frequently asked questions</h2>
+  <details><summary>Is registration free?</summary><p>Yes. Joining Mtaani Mashabiki Hub is completely free.</p></details>
+  <details><summary>Why can't I register again?</summary><p>Each phone number can be registered once, to keep the leaderboard fair. If you registered with the wrong team, contact the admin to have it fixed.</p></details>
+  <details><summary>What happens to my number?</summary><p>The admin saves it as a contact so you can be added to the community. It is not shown publicly on this website.</p></details>
+  <details><summary>How do I get the contacts?</summary><p>The admin shares a contact file (.vcf). Open it on your phone and tap Import to save all members at once.</p></details>
+  <details><summary>My team is not on the list. What do I do?</summary><p>Choose "Other" for now and message the admin to request your team be added.</p></details>
+  <details><summary>How can I leave the community?</summary><p>Send a message to the admin and your details will be removed.</p></details>
+</section>
+
+<section id="websites" class="promo">
+  <h2>We build all types of websites</h2>
+  <p>Businesses, schools, churches, online shops, booking sites, registration platforms, leaderboards and more. This hub is one example of what we can build for you.</p>
+  <div class="demo" aria-label="Example website">
+    <div class="bar2">mamamboga-fresh.co.ke</div>
+    <div class="hero"><h3>Mama Mboga Fresh</h3><div>Fresh vegetables and fruit delivered to your door.</div></div>
+    <div class="items"><span>Sukuma</span><span>Tomatoes</span><span>Mangoes</span></div>
+  </div>
+  <ul>
+    <li>Fast, mobile-friendly design</li>
+    <li>M-Pesa and WhatsApp integration</li>
+    <li>Database, user login and admin panel</li>
+    <li>Hosting and support included</li>
+  </ul>
+  <a class="btn" href="https://wa.me/254703182307?text=Hello%2C%20I%20want%20a%20website" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
+</section>
+</div>
+
+<footer>&copy; <span id="yr"></span> Mtaani Mashabiki Hub. All rights reserved.</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ===== PUT YOUR FIREBASE CONFIG HERE ===== */
+const firebaseConfig = { apiKey:"YOUR_API_KEY", authDomain:"YOUR_PROJECT.firebaseapp.com", projectId:"YOUR_PROJECT_ID" };
+const TEAMS = ["Gor Mahia","AFC Leopards","Tusker FC","Kakamega Homeboyz","Arsenal","Man United","Liverpool","Chelsea","Man City","Real Madrid","Barcelona","Other"];
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore(), FV = firebase.firestore.FieldValue;
+const statsRef = db.collection("stats").doc("main");
+const $ = id => document.getElementById(id);
+$("yr").textContent = new Date().getFullYear();
+$("team").innerHTML = '<option value="">Choose your team…</option>' + TEAMS.map(t => `<option>${t}</option>`).join("");
+
+/* Count one visit per browser session */
+try { if (!sessionStorage.getItem("v")) { sessionStorage.setItem("v","1"); statsRef.set({visits:FV.increment(1)},{merge:true}); } } catch(e){}
+
+/* Live stats + leaderboard */
+statsRef.onSnapshot(s => {
+  const d = s.data() || {}, counts = d.counts || {};
+  const rows = Object.entries(counts).filter(([,c]) => c > 0).sort((a,b) => b[1]-a[1]);
+  $("sTotal").textContent = Math.max(d.total || 0, 0);
+  $("sVisits").textContent = d.visits || 0;
+  $("sTeams").textContent = rows.length;
+  const max = rows.length ? rows[0][1] : 1;
+  $("lb").innerHTML = rows.length ? rows.map(([t,c],i) =>
+    `<div class="row"><div class="rank">${i+1}</div><div class="name">${t}<div class="bar"><i style="width:${c/max*100}%"></i></div></div><b>${c}</b></div>`).join("")
+    : "No fans registered yet. Be the first!";
+}, () => { $("lb").textContent = "Could not load the leaderboard."; });
+
+function normPhone(p){
+  let d = p.replace(/[^\d+]/g,""); if (d[0]==="+") d = d.slice(1);
+  if (d[0]==="0") d = "254"+d.slice(1);
+  if (/^[71]\d{8}$/.test(d)) d = "254"+d;
+  return /^254[71]\d{8}$/.test(d) ? d : null;
+}
+const WARN0 = $("warn").textContent;
+const setWarn = (t,hit) => { $("warn").textContent = t; $("warn").className = "warn"+(hit?" hit":""); };
+const say = (t,c) => { $("msg").textContent = t; $("msg").className = c; };
+let done = null; try { done = localStorage.getItem("registered"); } catch(e){}
+if (done) setWarn("Warning: this phone already registered the number "+done+". Do not register again.", true);
+
+$("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const name = $("name").value.trim(), team = $("team").value, phone = normPhone($("phone").value);
+  if (name.length < 2) return say("Enter your name.","err");
+  if (!phone) return say("Invalid phone number. Use a format like 0712345678.","err");
+  if (!team) return say("Choose the team you support.","err");
+  if (!$("agree").checked) return say("Please tick the agreement box.","err");
+  $("go").disabled = true;
+  try {
+    const b = db.batch();
+    b.set(db.collection("fans").doc(phone), {name, phone, team, at: FV.serverTimestamp()});
+    b.set(statsRef, {total: FV.increment(1), counts: {[team]: FV.increment(1)}}, {merge:true});
+    await b.commit();
+    say("You are registered! Welcome, "+name+" ("+team+").","ok");
+    try { localStorage.setItem("registered", phone); } catch(e){}
+    setWarn("Warning: this phone already registered the number "+phone+". Do not register again.", true);
+    $("form").reset();
+  } catch (err) {
+    say("This number is already registered, so it cannot be registered twice. If you think this is a mistake, contact the admin.","err");
+    setWarn("Warning: this number is already registered.", true);
+  }
+  $("go").disabled = false;
+});
+</script>
+</body>
+  </html>
