@@ -36,7 +36,10 @@ button.ghost{background:transparent;color:#fff;border:2px solid #ffffff66}
 table{width:100%;border-collapse:collapse;font-size:15px}
 th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
 .msg{margin-top:10px;font-weight:700}.ok{color:var(--green)}.err{color:var(--red)}
+.row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);word-break:break-word}
 #panel{display:none}
+.pr{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}
+.pr p{margin:2px 0 0;word-break:break-word}
 </style>
 </head>
 <body>
@@ -78,6 +81,11 @@ th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-
     </table></div>
     <div class="msg" id="shown"></div>
   </div>
+
+  <div class="card">
+    <h2>Moderate feed</h2>
+    <div id="mod">Loading…</div>
+  </div>
 </div>
 </div>
 
@@ -86,7 +94,14 @@ th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 /* ===== SAME FIREBASE CONFIG AS THE WEBSITE ===== */
-const firebaseConfig = { apiKey:"YOUR_API_KEY", authDomain:"YOUR_PROJECT.firebaseapp.com", projectId:"YOUR_PROJECT_ID" };
+const firebaseConfig = {
+  apiKey: "AIzaSyCpUQCu_Dvgv-vXfOKP0QtuvIDeXVVHdOY",
+  authDomain: "mtaani-vcf-hub.firebaseapp.com",
+  projectId: "mtaani-vcf-hub",
+  storageBucket: "mtaani-vcf-hub.firebasestorage.app",
+  messagingSenderId: "831707047225",
+  appId: "1:831707047225:web:616ed13b3f6b9931f034e8"
+};
 const TEAMS = ["Gor Mahia","AFC Leopards","Tusker FC","Kakamega Homeboyz","Arsenal","Man United","Liverpool","Chelsea","Man City","Real Madrid","Barcelona","Other"];
 const PREFIX = "Fan"; /* contact shows as: Fan Brian (Gor Mahia) */
 
@@ -98,7 +113,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">"
 const topt = TEAMS.map(t => `<option>${t}</option>`).join("");
 $("at").innerHTML = '<option value="">Choose team…</option>' + topt;
 $("ft").innerHTML = '<option value="ALL">All teams</option>' + topt;
-let people = [], unsub = null;
+let people = [], unsub = null, unsub2 = null;
 
 $("in").onclick = async () => {
   $("lerr").textContent = "";
@@ -112,10 +127,21 @@ auth.onAuthStateChanged(u => {
   $("panel").style.display = u ? "block" : "none";
   $("out").style.display = u ? "inline-block" : "none";
   if (unsub) { unsub(); unsub = null; }
-  if (u) unsub = db.collection("fans").orderBy("at","desc").onSnapshot(s => {
-    people = s.docs.map(d => d.data()); render();
-  }, () => { $("shown").textContent = "Could not load members. Check your Firestore rules."; });
+  if (unsub2) { unsub2(); unsub2 = null; }
+  if (u) {
+    unsub = db.collection("fans").orderBy("at","desc").onSnapshot(s => {
+      people = s.docs.map(d => d.data()); render();
+    }, () => { $("shown").textContent = "Could not load members. Check your Firestore rules."; });
+    unsub2 = db.collection("posts").orderBy("at","desc").limit(30).onSnapshot(s => {
+      $("mod").innerHTML = s.docs.map(d => { const p = d.data();
+        return `<div class="row"><div style="flex:1"><b>${esc(p.name)}</b> (${esc(p.team)}): ${esc(p.text)}<br><small>${p.likes||0} likes, ${p.comments||0} comments</small></div><button class="del" data-pid="${d.id}">Delete</button></div>`; }).join("") || "No posts yet.";
+    });
+  }
 });
+$("mod").onclick = async e => {
+  const id = e.target.dataset && e.target.dataset.pid;
+  if (id && confirm("Delete this post?")) { try { await db.collection("posts").doc(id).delete(); } catch(x){ alert("Could not delete the post."); } }
+};
 
 function normPhone(p){
   let d = p.replace(/[^\d+]/g,""); if (d[0]==="+") d = d.slice(1);
@@ -134,6 +160,9 @@ function render(){
     `<div class="stat"><b>${people.length}</b><span>Total registered</span></div>` +
     `<div class="stat"><b>${Object.keys(by).length}</b><span>Teams</span></div>` +
     `<div class="stat"><b>${top ? esc(top[1]) : 0}</b><span>${top ? esc(top[0]) + " (top team)" : "Top team"}</span></div>`;
+  const rc = {}; people.forEach(p => { if (p.refBy) rc[p.refBy] = (rc[p.refBy]||0)+1; });
+  const lead = Object.entries(rc).sort((a,b)=>b[1]-a[1])[0], lp = lead && people.find(p => p.ref === lead[0]);
+  $("stats").innerHTML += `<div class="stat" style="grid-column:1/-1"><b>${lead ? lead[1] : 0}</b><span>Referral leader (wins 2GB data): ${lp ? esc(lp.name) + ", +" + esc(lp.phone) : "no referrals yet"}</span></div>`;
   const list = filtered();
   $("rows").innerHTML = list.map((p,i) =>
     `<tr><td>${i+1}</td><td>${esc(p.name)}</td><td>+${esc(p.phone)}</td><td>${esc(p.team)}</td><td><button class="del" data-id="${esc(p.phone)}">Remove</button></td></tr>`
@@ -149,6 +178,8 @@ $("rows").onclick = async e => {
   try {
     const b = db.batch();
     b.delete(db.collection("fans").doc(id));
+    if (p.ref) b.delete(db.collection("refs").doc(p.ref));
+    if (p.refBy) { const rs = await db.collection("refs").doc(p.refBy).get(); if (rs.exists) b.update(rs.ref, {count: FV.increment(-1)}); }
     b.set(statsRef, {total: FV.increment(-1), counts: {[p.team]: FV.increment(-1)}}, {merge:true});
     await b.commit();
   } catch(err){ alert("Could not remove this member."); }
@@ -163,7 +194,9 @@ $("add").onclick = async () => {
   if (people.some(p => p.phone === phone)) return say("This number is already registered.","err");
   try {
     const b = db.batch();
-    b.set(db.collection("fans").doc(phone), {name, phone, team, at: FV.serverTimestamp()});
+    const code = Math.random().toString(36).slice(2,9);
+    b.set(db.collection("fans").doc(phone), {name, phone, team, ref: code, refBy: "", at: FV.serverTimestamp()});
+    b.set(db.collection("refs").doc(code), {name, team, count: 0});
     b.set(statsRef, {total: FV.increment(1), counts: {[team]: FV.increment(1)}}, {merge:true});
     await b.commit();
     say(name + " was added.","ok"); $("an").value = $("ap").value = ""; $("at").value = "";
@@ -185,4 +218,4 @@ $("vcf").onclick = () => {
 };
 </script>
 </body>
-  </html>
+</html>
