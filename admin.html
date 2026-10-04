@@ -34,10 +34,11 @@ button.ghost{background:transparent;color:#fff;border:2px solid #ffffff66}
 .tools input,.tools select{flex:1;min-width:150px}
 .tw{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:15px}
-th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
 .msg{margin-top:10px;font-weight:700}.ok{color:var(--green)}.err{color:var(--red)}
 .row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);word-break:break-word}
 #panel{display:none}
+@media(max-width:560px){th:first-child,td:first-child{display:none}table{font-size:14px}}
 .pr{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}
 .pr p{margin:2px 0 0;word-break:break-word}
 </style>
@@ -144,10 +145,13 @@ $("mod").onclick = async e => {
 };
 
 function normPhone(p){
-  let d = p.replace(/[^\d+]/g,""); if (d[0]==="+") d = d.slice(1);
-  if (d[0]==="0") d = "254"+d.slice(1);
-  if (/^[71]\d{8}$/.test(d)) d = "254"+d;
-  return /^254[71]\d{8}$/.test(d) ? d : null;
+  const intl = /^\s*(\+|00)/.test(p);
+  let d = p.replace(/\D/g,"");
+  if (intl) { if (d.startsWith("00")) d = d.slice(2); return /^\d{9,15}$/.test(d) ? d : null; }
+  if (/^06\d{8}$/.test(d)) d = "255" + d.slice(1);       /* Tanzania 06XX */
+  else if (d[0]==="0") d = "254" + d.slice(1);             /* Kenya 07XX / 01XX */
+  else if (/^[71]\d{8}$/.test(d)) d = "254" + d;
+  return /^(254[71]|255[67])\d{8}$/.test(d) ? d : null;
 }
 function filtered(){
   const q = $("q").value.trim().toLowerCase(), f = $("ft").value;
